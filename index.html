@@ -9,8 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
     
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
@@ -46,67 +46,32 @@
       }
     </script>
     <style>
-      /* Smooth scrolling */
       html { scroll-behavior: smooth; }
-      
-      /* Custom Scrollbar */
       ::-webkit-scrollbar { width: 8px; }
       ::-webkit-scrollbar-track { background: #f1f1f1; }
       ::-webkit-scrollbar-thumb { background: #C5A028; border-radius: 4px; }
       ::-webkit-scrollbar-thumb:hover { background: #B49020; }
     </style>
-    </head>
+</head>
 <body>
     <div id="root"></div>
 
-    <script type="text/babel" data-presets="react,typescript">
+    <script type="text/babel" data-presets="react">
         const { useState, useEffect } = React;
-        // Access Framer Motion globals
+        
+        // --- SAFE GLOBAL VARIABLES ACCESS ---
         const { motion, AnimatePresence } = window.Motion;
-        // Access Lucide React globals
-        // FIXED: Changed window.lucideReact to window.lucide
+        
+        // Check both possible variable names for Lucide
+        const LucideIcons = window.lucideReact || window.lucide;
         const { 
             Menu, X, ArrowRight, Clock, Award, Layers, ShieldCheck, 
             Home, PenTool, ChefHat, Hammer, Building, Briefcase, 
             MapPin, ArrowUpRight, MessageSquare, Layout, Box, Settings, Key,
             Star, Quote, Linkedin, Instagram, Phone, Mail, Facebook, MessageCircle 
-        } = window.lucide;
+        } = LucideIcons;
 
-        // --- Types ---
-        // (Interfaces are stripped by Babel but useful for reference)
-        interface Service {
-          id: number;
-          title: string;
-          description: string;
-          image: string;
-          icon: any;
-        }
-
-        interface Project {
-          id: number;
-          title: string;
-          location: string;
-          category: string;
-          image: string;
-        }
-
-        interface Testimonial {
-          id: number;
-          name: string;
-          role: string;
-          quote: string;
-          image: string;
-          rating: number;
-        }
-
-        interface TeamMember {
-          id: number;
-          name: string;
-          role: string;
-          image: string;
-        }
-
-        // --- Components ---
+        // --- COMPONENTS ---
 
         // 1. Navbar
         const Navbar = () => {
