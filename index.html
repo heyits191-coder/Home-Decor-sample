@@ -51,23 +51,30 @@
     <div id="root"></div>
 
     <script type="text/babel" data-presets="react">
-        // Error Boundary to catch crashes and show them on screen
+        // Error Boundary logic
         try {
             const { useState, useEffect } = React;
             
-            // --- GLOBAL VARIABLE CHECKS ---
+            // --- FIX: Flexible Library Check ---
+            // Check for Framer Motion
             if (!window.Motion) throw new Error("Framer Motion library failed to load.");
-            if (!window.lucideReact) throw new Error("Lucide Icons library failed to load.");
+
+            // Check for Lucide Icons (Accept EITHER name)
+            const LucideLib = window.lucide || window.lucideReact;
+            
+            if (!LucideLib) {
+                throw new Error("Lucide Icons library failed to load. (Network issue or wrong variable name)");
+            }
 
             const { motion, AnimatePresence } = window.Motion;
             
-            // Access Icons safely
+            // Destructure icons from the found library object
             const { 
                 Menu, X, ArrowRight, Clock, Award, Layers, ShieldCheck, 
                 Home, PenTool, ChefHat, Hammer, Building, Briefcase, 
                 MapPin, ArrowUpRight, MessageSquare, Layout, Box, Settings, Key,
                 Star, Quote, Linkedin, Instagram, Phone, Mail, Facebook, MessageCircle 
-            } = window.lucideReact;
+            } = LucideLib;
 
             // --- COMPONENTS ---
 
@@ -915,7 +922,7 @@
         } catch (error) {
             console.error(error);
             document.getElementById('root').innerHTML = `
-                <div style="color: red; padding: 20px; text-align: center;">
+                <div style="color: red; padding: 20px; text-align: center; font-family: sans-serif;">
                     <h1>Something went wrong</h1>
                     <p>${error.message}</p>
                     <p>Open console (F12) for details.</p>
